@@ -50,6 +50,7 @@ bot.command("start", async (ctx) => {
     console.log(`Команда /start от пользователя ${ctx.from.id}`); // Логируем вызов обработчика
 
     const userId = ctx.from.id;
+    const userLink = `tg://user?id=${userId}`;
     const username = ctx.from.username ? `@${ctx.from.username}` : "Без имени";
     const firstName = ctx.from.first_name || "Не указано";
     const lastName = ctx.from.last_name || "";
@@ -71,10 +72,11 @@ bot.command("start", async (ctx) => {
         const message = `🚀 Новый пользователь активировал бота!  
 👤 Имя: ${firstName} ${lastName}  
 📌 Юзернейм: ${username}  
-🆔 ID: ${userId}`;
+🆔 ID: ${userId}
+🔗 <a href="tg://user?id=${userId}">Перейти в личку</a>`;
 
         try {
-            await bot.api.sendMessage(groupId, message);
+            await bot.api.sendMessage(groupId, message, { parse_mode: "HTML" });
         } catch (error) {
             console.error("Ошибка при отправке сообщения в группу:", error);
         }
